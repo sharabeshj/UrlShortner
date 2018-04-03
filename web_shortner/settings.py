@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'web_shortner.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myproject',
+        'NAME': 'task',
         'USER' : 'sharabesh',
         'PASSWORD' : 'shara1234',
         'HOST' : 'localhost',

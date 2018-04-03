@@ -1,45 +1,16 @@
-import React, { Component } from 'react';
-import $ from 'jquery'
-var createReactClass = require('create-react-class')
+import React from 'react'
+import { Switch, Route } from 'react-router-dom'
+import FullList from './FullList'
+import Detail from './Detail'
 
-var List = createReactClass({
-  loadUrlFromServer : function(){
-    $.ajax({
-      url : '/api',
-      datatype : 'json',
-      cache : false,
-      success: function(data){
-        this.setState({data : data});
-      }.bind(this)
-    })
-  },
+// The Roster component matches one of two different routes
+// depending on the full pathname
+const List = () => (
+  <Switch>
+    <Route exact path='/list' component={FullList}/>
+    <Route path='/list/:id' component={Detail}/>
+  </Switch>
+)
 
-   getInitialState : function(){
-    return {data : []};
-   },
-
-   componentDidMount : function(){
-    this.loadUrlFromServer();
-    // setInterval(this.loadUrlFromServer,
-    //             1000)
-   },
-   render: function(){
-    if(this.state.data){
-      console.log('DATA!')
-      var urlNodes = this.state.data.map(function(url){
-         return <li> {url.short_url} </li>   
-      })
-    }
-    return (
-      <div>
-        <h1>Hello React!</h1>
-        <ul>
-            {urlNodes}
-        </ul>
-      </div>
-    )
-   } 
-
-})
 
 export default List

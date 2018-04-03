@@ -7,7 +7,9 @@ class ApiSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Api
-		fields = ('id','long_url','short_url',)
+		fields = ('id','unique_id','long_url','short_url',)
+
+	# short_url = serializers.ReadOnlyField()	
 
 class UserSerializer(serializers.ModelSerializer):
 	api = serializers.PrimaryKeyRelatedField(many = True, queryset = Api.objects.all())

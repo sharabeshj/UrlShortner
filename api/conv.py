@@ -78,6 +78,4 @@ def dehydrate(integer):
         string = true_chr(remainder) + string
         integer /= BASE
     return string
-    
-    
-       
+
