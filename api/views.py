@@ -9,10 +9,25 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from django.views.decorators.csrf import csrf_exempt
+from api.permissions import IsOwnerOrReadOnly
+from django.http import JsonResponse
+from django.contrib.auth import login as auth_login,authenticate
+
 # Create your views here.
 
+def login(request):
+	if request.method == "POST":
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username,password=password)
+		if user is not None:
+			if user.is_active:
+				auth_login(request,user)
+				return JsonResponse({'status':'ok'})
+			
 class ApiList(APIView):
-	#permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+	permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                      IsOwnerOrReadOnly,)
 
 	def get(self,request,format = None):
 		api = Api.objects.all()
@@ -22,14 +37,16 @@ class ApiList(APIView):
 	def post(self,request,format = None):
 		serializer = ApiSerializer(data = request.data)
 		if serializer.is_valid():
-			serializer.save()
+			serializer.save(owner = self.request.user)
 			return Response(serializer.data,status = status.HTTP_201_CREATED)
 		return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)	
 
-	# def perform_create(self,serializer):
-	# 	serializer.save(owner = self.request.user)		
+	
+				
 
 class ApiDetail(APIView):
+	permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                      IsOwnerOrReadOnly,)
 	def get_object(self,pk):
 		try:
 			return Api.objects.get(pk = pk)

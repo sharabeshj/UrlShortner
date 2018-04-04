@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save,pre_save
 from django.dispatch import receiver
 from api import conv
 from django.contrib.auth.models import User
@@ -10,12 +10,12 @@ def random_number():
 
 
 class Api(models.Model):
-	#owner = models.ForeignKey(User,related_name = 'api', on_delete = models.CASCADE)
-	id = models.AutoField(primary_key = True)
-	unique_id = models.IntegerField(default = random_number)
+	owner = models.ForeignKey('auth.user',related_name = 'api', on_delete = models.CASCADE)
+	unique_id = models.IntegerField(default = 0)
 	long_url = models.CharField(max_length = 100)
-	short_url = models.CharField(max_length = 30,blank = True)
+	short_url = models.CharField(max_length = 100,blank = True)
 
-@receiver(post_save,sender = Api)
+@receiver(pre_save,sender = Api)
 def save_short_url(sender,instance,**kwargs):
-	instance.short_url = conv.dehydrate(instance.unique_id)	
+	instance.unique_id = random_number()
+	instance.short_url = conv.dehydrate(instance.unique_id)

@@ -3,13 +3,13 @@ from api.models import Api
 from django.contrib.auth.models import User
 
 class ApiSerializer(serializers.ModelSerializer):
-	#owner = serializers.ReadOnlyField(source = 'owner.username')
+	owner = serializers.ReadOnlyField(source = 'owner.username')
 
 	class Meta:
 		model = Api
-		fields = ('id','unique_id','long_url','short_url',)
+		fields = ('unique_id','long_url','short_url','owner')
 
-	# short_url = serializers.ReadOnlyField()	
+
 
 class UserSerializer(serializers.ModelSerializer):
 	api = serializers.PrimaryKeyRelatedField(many = True, queryset = Api.objects.all())

@@ -28,7 +28,7 @@ var Detail = createReactClass({
    },
    render: function(){
    if(this.state.data){
-      console.log('DATA!')
+      console.log(this.state.data)
       var urlDetails = this.state.data.map(function(url){
          return <h2>Long URL : {url.long_url}</h2>   
       })

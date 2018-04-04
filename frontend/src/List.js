@@ -8,7 +8,6 @@ import Detail from './Detail'
 const List = () => (
   <Switch>
     <Route exact path='/list' component={FullList}/>
-    <Route path='/list/:id' component={Detail}/>
   </Switch>
 )
 

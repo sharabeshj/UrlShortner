@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Converts any integer into a base [BASE] number. I have chosen 62
+# Converts any integer into a base [BASE] number. integer have chosen 62
 # as it is meant to represent the integers using all the alphanumeric
 # characters, [no special characters] = {0..9}, {A..Z}, {a..z}
 #
@@ -13,6 +13,8 @@
 #
 import math
 import sys
+import random
+from string import ascii_lowercase
 
 BASE = 62
 
@@ -40,6 +42,7 @@ def true_chr(integer):
     Turns an integer [integer] into digit in base [BASE]
     as a character representation.
     """
+    
     if integer < 10:
         return chr(integer + DIGIT_OFFSET)
     elif 10 <= integer <= 35:
@@ -69,6 +72,9 @@ def dehydrate(integer):
     
     # we won't step into the while if integer is 0
     # so we just solve for that case here
+
+    return ''.join([random.choice(ascii_lowercase) for _ in range(10) ])
+
     if integer == 0:
         return '0'
     
