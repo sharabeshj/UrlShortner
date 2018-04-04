@@ -23,6 +23,7 @@ export default class Login extends Component {
   handleSubmit = event => {
     console.log(this.state.username);
     console.log(this.state.password);
+
      $.ajax({
       type : 'POST',
       url : '/login',
@@ -43,11 +44,11 @@ export default class Login extends Component {
         <form onSubmit={this.handleSubmit}>
             <label>
           Enter Username:
-          <input type="text" onChange={this.handleChange} />
+          <input id = "username" type="text" onChange={this.handleChange} />
         </label>
         <label>
           Enter password:
-          <input type="password"  onChange={this.handleChange} />
+          <input id = "password" type="password"  onChange={this.handleChange} />
         </label>
          <input type="submit" value="Submit" />
         </form>
